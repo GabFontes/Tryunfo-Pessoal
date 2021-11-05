@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Input extends Component {
   render() {
     return (
-      <>
+      <form>
         <label htmlFor="card-name">
           Nome da Carta
           <input
@@ -74,8 +74,8 @@ class Input extends Component {
             data-testid="trunfo-input"
           />
         </label>
-        <button data-testid="save-button" >Salvar</button>
-      </>
+        <button type="button" data-testid="save-button">Salvar</button>
+      </form>
     );
   }
 }
