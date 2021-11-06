@@ -19,9 +19,9 @@ class Card extends Component {
         <img src={ cardImage } alt={ cardName } data-testid="image-card" />
         <span data-testid="description-card">{cardDescription}</span>
         <div>
-          <span data-testid="attr1-card">{cardAttr1}</span>
-          <span data-testid="attr2-card">{cardAttr2}</span>
-          <span data-testid="attr3-card">{cardAttr3}</span>
+          <p data-testid="attr1-card">{cardAttr1}</p>
+          <p data-testid="attr2-card">{cardAttr2}</p>
+          <p data-testid="attr3-card">{cardAttr3}</p>
         </div>
         <p data-testid="rare-card">{cardRare}</p>
         {

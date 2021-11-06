@@ -8,6 +8,7 @@ class App extends React.Component {
     super();
 
     this.onInputChange = this.onInputChange.bind(this);
+    this.validationButton = this.validationButton.bind(this);
 
     this.state = {
       cardName: '',
@@ -18,17 +19,48 @@ class App extends React.Component {
       imageInput: '',
       cardRarity: '',
       trunfoInput: false,
+      isSaveButtonDisabled: true,
     };
   }
 
   onInputChange({ target }) {
     const { name } = target;
-    console.log(name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    console.log(value);
     this.setState({
       [name]: value,
-    });
+    }, this.validationButton);
+  }
+
+  validationButton() {
+    const {
+      cardName,
+      cardDescription,
+      imageInput,
+      cardRarity,
+      attr1Input,
+      attr2Input,
+      attr3Input,
+    } = this.state;
+
+    const somMaxValue = 210;
+    const minLengthInput = 0;
+    const maxAttrValue = 90;
+
+    if (cardName.length && cardDescription.length
+      && imageInput.length && cardRarity.length > minLengthInput
+      && attr1Input <= maxAttrValue && attr2Input <= maxAttrValue && attr3Input
+      <= maxAttrValue
+      && attr1Input >= minLengthInput && attr2Input >= minLengthInput && attr3Input
+      >= minLengthInput
+      && (Number(attr1Input) + Number(attr2Input) + Number(attr3Input)) <= somMaxValue) {
+      this.setState({
+        isSaveButtonDisabled: false,
+      });
+    } else {
+      this.setState({
+        isSaveButtonDisabled: true,
+      });
+    }
   }
 
   render() {
@@ -41,6 +73,7 @@ class App extends React.Component {
       imageInput,
       cardRarity,
       trunfoInput,
+      isSaveButtonDisabled,
     } = this.state;
     return (
       <div>
@@ -55,7 +88,7 @@ class App extends React.Component {
           cardRare={ cardRarity }
           cardTrunfo={ trunfoInput }
           hasTrunfo={ false }
-          isSaveButtonDisabled={ false }
+          isSaveButtonDisabled={ isSaveButtonDisabled }
           onInputChange={ this.onInputChange }
           onSaveButtonClick={ () => 'a' }
         />
