@@ -9,6 +9,7 @@ class App extends React.Component {
 
     this.onInputChange = this.onInputChange.bind(this);
     this.validationButton = this.validationButton.bind(this);
+    this.saveCardAndClearForm = this.saveCardAndClearForm.bind(this);
 
     this.state = {
       cardName: '',
@@ -20,6 +21,7 @@ class App extends React.Component {
       cardRarity: '',
       trunfoInput: false,
       isSaveButtonDisabled: true,
+      cards: [],
     };
   }
 
@@ -46,6 +48,8 @@ class App extends React.Component {
     const minLengthInput = 0;
     const maxAttrValue = 90;
 
+    //  Idéia de fazer várias validações dentro de um só if e de usar a função 'Number' na linha 57 ao Natã Elienai;
+
     if (cardName.length && cardDescription.length
       && imageInput.length && cardRarity.length > minLengthInput
       && attr1Input <= maxAttrValue && attr2Input <= maxAttrValue && attr3Input
@@ -61,6 +65,44 @@ class App extends React.Component {
         isSaveButtonDisabled: true,
       });
     }
+  }
+
+  saveCardAndClearForm() {
+    const {
+      cardName,
+      cardDescription,
+      imageInput,
+      cardRarity,
+      attr1Input,
+      attr2Input,
+      attr3Input,
+      trunfoInput,
+      cards,
+    } = this.state;
+
+    const obj = {
+      name: cardName,
+      description: cardDescription,
+      image: imageInput,
+      rarity: cardRarity,
+      atribute1: attr1Input,
+      atribute2: attr2Input,
+      atribute3: attr3Input,
+      trunfo: trunfoInput,
+    };
+
+    this.setState({
+      cards: [...cards, obj],
+      cardName: '',
+      cardDescription: '',
+      attr1Input: 0,
+      attr2Input: 0,
+      attr3Input: 0,
+      imageInput: '',
+      cardRarity: '',
+      trunfoInput: false,
+      isSaveButtonDisabled: true,
+    });
   }
 
   render() {
@@ -90,7 +132,7 @@ class App extends React.Component {
           hasTrunfo={ false }
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onInputChange={ this.onInputChange }
-          onSaveButtonClick={ () => 'a' }
+          onSaveButtonClick={ this.saveCardAndClearForm }
         />
         <Card
           cardName={ cardName }
