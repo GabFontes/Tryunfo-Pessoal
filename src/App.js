@@ -112,7 +112,7 @@ class App extends React.Component {
       attr2Input: '0',
       attr3Input: '0',
       imageInput: '',
-      cardRarity: '',
+      cardRarity: 'normal',
       isSaveButtonDisabled: true,
     });
 
@@ -131,6 +131,7 @@ class App extends React.Component {
       trunfoInput,
       hasTrunfo,
       isSaveButtonDisabled,
+      cards,
     } = this.state;
     return (
       <div>
@@ -148,7 +149,6 @@ class App extends React.Component {
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onInputChange={ this.onInputChange }
           onSaveButtonClick={ this.saveCardAndClearForm }
-
         />
         <Card
           cardName={ cardName }
@@ -159,6 +159,7 @@ class App extends React.Component {
           cardImage={ imageInput }
           cardRare={ cardRarity }
           cardTrunfo={ trunfoInput }
+          cards={ cards }
         />
       </div>
     );

@@ -2,6 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Card extends Component {
+  renderList(cards) {
+    return cards.map((card) => (
+      <div key={ card.name }>
+        <p data-testid="name-card">{card.name}</p>
+        <img src={ card.image } alt={ card.name } data-testid="image-card" />
+        <span data-testid="description-card">{card.description}</span>
+        <div>
+          <p data-testid="attr1-card">{card.atribute1}</p>
+          <p data-testid="attr2-card">{card.atribute2}</p>
+          <p data-testid="attr3-card">{card.atribute3}</p>
+        </div>
+        <p data-testid="rare-card">{card.rarity}</p>
+        {
+          card.trunfo && <p data-testid="trunfo-card">Super Trunfo</p>
+        }
+      </div>
+    ));
+  }
+
   render() {
     const {
       cardName,
@@ -12,6 +31,7 @@ class Card extends Component {
       cardImage,
       cardRare,
       cardTrunfo,
+      cards,
     } = this.props;
     return (
       <div>
@@ -27,6 +47,10 @@ class Card extends Component {
         {
           cardTrunfo && <p data-testid="trunfo-card">Super Trunfo</p>
         }
+        <div>
+          <h3>Todas as cartas</h3>
+          <div>{this.renderList(cards)}</div>
+        </div>
       </div>
     );
   }
@@ -45,6 +69,7 @@ Card.propTypes = {
   cardImage: PropTypes.string.isRequired,
   cardRare: PropTypes.string.isRequired,
   cardTrunfo: PropTypes.bool,
+  cards: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Card;
