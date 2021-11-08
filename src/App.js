@@ -10,6 +10,7 @@ class App extends React.Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.validationButton = this.validationButton.bind(this);
     this.saveCardAndClearForm = this.saveCardAndClearForm.bind(this);
+    this.hasTrunfo = this.hasTrunfo.bind(this);
 
     this.state = {
       cardName: '',
@@ -18,8 +19,9 @@ class App extends React.Component {
       attr2Input: '',
       attr3Input: '',
       imageInput: '',
-      cardRarity: '',
+      cardRarity: 'normal',
       trunfoInput: false,
+      hasTrunfo: false,
       isSaveButtonDisabled: true,
       cards: [],
     };
@@ -67,7 +69,18 @@ class App extends React.Component {
     }
   }
 
+  hasTrunfo() {
+    const { trunfoInput } = this.state;
+    if (trunfoInput === true) {
+      this.setState({
+        hasTrunfo: true,
+      });
+    }
+  }
+
   saveCardAndClearForm() {
+    //  Créditos ao Andrey de Novaes Ferreira por me ajudar no entendimento do requisito.
+
     const {
       cardName,
       cardDescription,
@@ -95,14 +108,15 @@ class App extends React.Component {
       cards: [...cards, obj],
       cardName: '',
       cardDescription: '',
-      attr1Input: 0,
-      attr2Input: 0,
-      attr3Input: 0,
+      attr1Input: '0',
+      attr2Input: '0',
+      attr3Input: '0',
       imageInput: '',
       cardRarity: '',
-      trunfoInput: false,
       isSaveButtonDisabled: true,
     });
+
+    this.hasTrunfo();
   }
 
   render() {
@@ -115,6 +129,7 @@ class App extends React.Component {
       imageInput,
       cardRarity,
       trunfoInput,
+      hasTrunfo,
       isSaveButtonDisabled,
     } = this.state;
     return (
@@ -129,10 +144,11 @@ class App extends React.Component {
           cardImage={ imageInput }
           cardRare={ cardRarity }
           cardTrunfo={ trunfoInput }
-          hasTrunfo={ false }
+          hasTrunfo={ hasTrunfo }
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onInputChange={ this.onInputChange }
           onSaveButtonClick={ this.saveCardAndClearForm }
+
         />
         <Card
           cardName={ cardName }
