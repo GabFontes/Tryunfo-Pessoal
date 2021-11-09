@@ -12,8 +12,8 @@ class Form extends Component {
         <input
           checked={ cardTrunfo }
           onChange={ onInputChange }
-          id="trunfo-input"
-          name="trunfoInput"
+          id="cardTrunfo"
+          name="cardTrunfo"
           type="checkbox"
           data-testid="trunfo-input"
         />
@@ -66,7 +66,7 @@ class Form extends Component {
             value={ cardAttr1 }
             onChange={ onInputChange }
             id="attr1Input"
-            name="attr1Input"
+            name="cardAttr1"
             type="number"
             data-testid="attr1-input"
           />
@@ -76,8 +76,8 @@ class Form extends Component {
           <input
             value={ cardAttr2 }
             onChange={ onInputChange }
-            id="attr2Input"
-            name="attr2Input"
+            id="cardAttr2 "
+            name="cardAttr2"
             type="number"
             data-testid="attr2-input"
           />
@@ -87,8 +87,8 @@ class Form extends Component {
           <input
             value={ cardAttr3 }
             onChange={ onInputChange }
-            id="attr3Input"
-            name="attr3Input"
+            id="cardAttr3"
+            name="cardAttr3"
             type="number"
             data-testid="attr3-input"
           />
@@ -98,8 +98,8 @@ class Form extends Component {
           <input
             value={ cardImage }
             onChange={ onInputChange }
-            id="image-input"
-            name="imageInput"
+            id="cardImage"
+            name="cardImage"
             type="text"
             data-testid="image-input"
           />
@@ -109,11 +109,11 @@ class Form extends Component {
           <select
             value={ cardRare }
             onChange={ onInputChange }
-            id="card-rarity"
-            name="cardRarity"
+            id="cardRare"
+            name="cardRare"
             data-testid="rare-input"
           >
-            <option>normal</option>
+            <option checked>normal</option>
             <option>raro</option>
             <option>muito raro</option>
           </select>

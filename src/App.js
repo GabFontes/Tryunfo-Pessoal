@@ -10,17 +10,17 @@ class App extends React.Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.validationButton = this.validationButton.bind(this);
     this.saveCardAndClearForm = this.saveCardAndClearForm.bind(this);
-    this.hasTrunfo = this.hasTrunfo.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
 
     this.state = {
       cardName: '',
       cardDescription: '',
-      attr1Input: '',
-      attr2Input: '',
-      attr3Input: '',
-      imageInput: '',
-      cardRarity: 'normal',
-      trunfoInput: false,
+      cardAttr1: '',
+      cardAttr2: '',
+      cardAttr3: '',
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       cards: [],
@@ -35,15 +35,33 @@ class App extends React.Component {
     }, this.validationButton);
   }
 
+  deleteCard(index) {
+    const { cards } = this.state;
+    cards.splice(index, 1);
+    this.setState(() => ({
+      cards,
+    }));
+    const trunfo = cards.some((card) => card.cardTrunfo === true);
+    if (trunfo) {
+      this.setState({
+        hasTrunfo: true,
+      });
+    } else {
+      this.setState({
+        hasTrunfo: false,
+      });
+    }
+  }
+
   validationButton() {
     const {
       cardName,
       cardDescription,
-      imageInput,
-      cardRarity,
-      attr1Input,
-      attr2Input,
-      attr3Input,
+      cardImage,
+      cardRare,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
     } = this.state;
 
     const somMaxValue = 210;
@@ -53,12 +71,12 @@ class App extends React.Component {
     //  Idéia de fazer várias validações dentro de um só if e de usar a função 'Number' na linha 57 ao Natã Elienai;
 
     if (cardName.length && cardDescription.length
-      && imageInput.length && cardRarity.length > minLengthInput
-      && attr1Input <= maxAttrValue && attr2Input <= maxAttrValue && attr3Input
+      && cardImage.length && cardRare.length > minLengthInput
+      && cardAttr1 <= maxAttrValue && cardAttr2 <= maxAttrValue && cardAttr3
       <= maxAttrValue
-      && attr1Input >= minLengthInput && attr2Input >= minLengthInput && attr3Input
+      && cardAttr1 >= minLengthInput && cardAttr2 >= minLengthInput && cardAttr3
       >= minLengthInput
-      && (Number(attr1Input) + Number(attr2Input) + Number(attr3Input)) <= somMaxValue) {
+      && (Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3)) <= somMaxValue) {
       this.setState({
         isSaveButtonDisabled: false,
       });
@@ -69,98 +87,84 @@ class App extends React.Component {
     }
   }
 
-  hasTrunfo() {
-    const { trunfoInput } = this.state;
-    if (trunfoInput === true) {
-      this.setState({
-        hasTrunfo: true,
-      });
-    }
-  }
-
   saveCardAndClearForm() {
     //  Créditos ao Andrey de Novaes Ferreira por me ajudar no entendimento do requisito.
 
     const {
       cardName,
       cardDescription,
-      imageInput,
-      cardRarity,
-      attr1Input,
-      attr2Input,
-      attr3Input,
-      trunfoInput,
+      cardImage,
+      cardRare,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardTrunfo,
       cards,
     } = this.state;
 
     const obj = {
-      name: cardName,
-      description: cardDescription,
-      image: imageInput,
-      rarity: cardRarity,
-      atribute1: attr1Input,
-      atribute2: attr2Input,
-      atribute3: attr3Input,
-      trunfo: trunfoInput,
+      cardName,
+      cardDescription,
+      cardImage,
+      cardRare,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardTrunfo,
     };
 
     this.setState({
       cards: [...cards, obj],
       cardName: '',
       cardDescription: '',
-      attr1Input: '0',
-      attr2Input: '0',
-      attr3Input: '0',
-      imageInput: '',
-      cardRarity: 'normal',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardImage: '',
+      cardRare: 'normal',
       isSaveButtonDisabled: true,
+      cardTrunfo: false,
     });
 
-    this.hasTrunfo();
+    if (cardTrunfo) {
+      this.setState({
+        hasTrunfo: true,
+      });
+    }
   }
 
   render() {
     const {
-      cardName,
-      cardDescription,
-      attr1Input,
-      attr2Input,
-      attr3Input,
-      imageInput,
-      cardRarity,
-      trunfoInput,
-      hasTrunfo,
-      isSaveButtonDisabled,
       cards,
     } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
         <Form
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ attr1Input }
-          cardAttr2={ attr2Input }
-          cardAttr3={ attr3Input }
-          cardImage={ imageInput }
-          cardRare={ cardRarity }
-          cardTrunfo={ trunfoInput }
-          hasTrunfo={ hasTrunfo }
-          isSaveButtonDisabled={ isSaveButtonDisabled }
+          { ...this.state }
           onInputChange={ this.onInputChange }
           onSaveButtonClick={ this.saveCardAndClearForm }
         />
         <Card
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ attr1Input }
-          cardAttr2={ attr2Input }
-          cardAttr3={ attr3Input }
-          cardImage={ imageInput }
-          cardRare={ cardRarity }
-          cardTrunfo={ trunfoInput }
-          cards={ cards }
+          { ...this.state }
         />
+        <div>
+          <h3>Todas as cartas</h3>
+          {
+            cards.map((card, index) => (
+              <div key={ index }>
+                <Card { ...card } />
+                <button
+                  type="button"
+                  onClick={ () => this.deleteCard(index) }
+                  data-testid="delete-button"
+                >
+                  Excluir
+                </button>
+              </div>
+            ))
+          }
+        </div>
       </div>
     );
   }
